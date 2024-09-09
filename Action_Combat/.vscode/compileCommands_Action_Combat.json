@@ -54,5 +54,53 @@
 			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
 		],
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Animation\\MainPlayerAnimInstance.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Animation\\MainPlayerAnimInstance.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\MainPlayer.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\MainPlayer.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\MainPlayerController.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\MainPlayerController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	}
 ]
