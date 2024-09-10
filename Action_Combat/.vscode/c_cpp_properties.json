@@ -5,6 +5,11 @@
             "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
             "cStandard": "c17",
             "cppStandard": "c++20",
+            "includePath": [ 
+				"${workspaceFolder}\\Intermediate\\**", 
+				"${workspaceFolder}\\Plugins\\**", 
+				"${workspaceFolder}\\Source\\**" 
+			],
             "intelliSenseMode": "msvc-x64",
             "compileCommands": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Action_Combat.json"
         },
@@ -14,7 +19,11 @@
             "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "msvc-x64",
-            "compileCommands": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default.json"
+            "compileCommands": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default.json",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/Source/Action_Combat"
+            ]
         }
     ],
     "version": 4
