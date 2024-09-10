@@ -12,16 +12,31 @@ class ACTION_COMBAT_API ULockOnOffComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	//Making this a character instead of an actor because we want access to some functions in the "ACharacter" class
+	ACharacter* ownerRef; //Reference to the owner of this component
+	APlayerController* playerController;
+	class UCharacterMovementComponent* characterMovementComponent;
+	class USpringArmComponent* springArmComponent;
+
+	void LockOn(float radius, FVector cameraOffset);
+	void LockOff();
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool lockedOn {false};
 
+	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Positive number will tilt the camera up when locked on and negative number will tilt down"))
+	float lockedOnCameraTiltZ {0.0f};
+
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void ToggleLockOnOff();
+	void ToggleLockOnOff(float radius, FVector cameraOffset);
 
 public:
+	AActor* currentTargetActor;
+
 	// Sets default values for this component's properties
 	ULockOnOffComponent();
 
