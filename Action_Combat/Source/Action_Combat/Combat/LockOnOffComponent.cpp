@@ -22,11 +22,7 @@ void ULockOnOffComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ownerRef = GetOwner<ACharacter>();
-	if (ownerRef == nullptr) {return;}
-	playerController = ownerRef->GetController<APlayerController>();
-	characterMovementComponent = ownerRef->GetCharacterMovement();
-	springArmComponent = ownerRef->FindComponentByClass<USpringArmComponent>();
+	GetReferences();
 }
 
 // Called every frame
@@ -37,37 +33,79 @@ void ULockOnOffComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	if (!IsValid(currentTargetActor)) {return;}
 	if (!IsValid(playerController)) {return;}
 
-	FVector currentLocation {ownerRef->GetActorLocation()};
-	FVector targetLocation {currentTargetActor->GetActorLocation()};
-	targetLocation.Z += lockedOnCameraTiltZ;
-	FRotator newRotation = UKismetMathLibrary::FindLookAtRotation(currentLocation, targetLocation);
-	playerController->SetControlRotation(newRotation);
+	SetPlayerControlRotation();
 }
 
 /*Private Functions*/
+void ULockOnOffComponent::GetReferences()
+{
+	ownerRef = GetOwner<ACharacter>();
+	if (ownerRef == nullptr) {return;}
+	playerController = ownerRef->GetController<APlayerController>();
+	characterMovementComponent = ownerRef->GetCharacterMovement();
+	springArmComponent = ownerRef->FindComponentByClass<USpringArmComponent>();
+}
+
 void ULockOnOffComponent::LockOn(float radius, FVector cameraOffset)
 {
+	//Sphere trace around this component's owner looking through the "Fighting" channel while ignoring the owner
 	FHitResult outHitResult;
 	FVector currentLocation {ownerRef->GetActorLocation()};
 	FCollisionShape sphere {FCollisionShape::MakeSphere(radius)};
 	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
 
-	//Trace a sphere around the owner of this component looking through the "Fighting" channel while ignoring the owner
 	if (!GetWorld()->SweepSingleByChannel(outHitResult, currentLocation, currentLocation, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, sphere, ignoreParams)) {return;}
 
 	UE_LOG(LogTemp, Warning, TEXT("Locking on to: %s"), *outHitResult.GetActor()->GetName());
 	currentTargetActor = outHitResult.GetActor();
 
-	playerController->SetIgnoreLookInput(true); //Player can't controll the camer anymore
-	ownerRef->bUseControllerRotationYaw = false;
-	characterMovementComponent->bUseControllerDesiredRotation = true;
-
-	springArmComponent->TargetOffset = cameraOffset;
+	SetLockOnSettings(cameraOffset);
+	lockedOn = true;
 }
 
 void ULockOnOffComponent::LockOff()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Locking off"));
+	currentTargetActor = nullptr;
+
+	playerController->ResetIgnoreLookInput();
+	ownerRef->bUseControllerRotationYaw = true;
+
+	characterMovementComponent->bUseControllerDesiredRotation = false;
+
+	springArmComponent->TargetOffset = FVector::ZeroVector;
+	lockedOn = false;
+}
+
+void ULockOnOffComponent::SetLockOnSettings(FVector cameraOffset)
+{
+	//Set new player control settings
+	playerController->SetIgnoreLookInput(true); //Player can't control the camera anymore
+	ownerRef->bUseControllerRotationYaw = false;
+
+	characterMovementComponent->bUseControllerDesiredRotation = true;
+
+	//Move the camera to a desirable positions while locked on to target
+	springArmComponent->TargetOffset = cameraOffset;
+}
+
+void ULockOnOffComponent::SetPlayerControlRotation()
+{
+	//Tilt the player controller to a desirable rotation
+	FVector currentLocation {ownerRef->GetActorLocation()};
+	FVector targetLocation {currentTargetActor->GetActorLocation()};
+
+	//Can't lock on to target if they're out of range
+	double distance {FVector::Distance(currentLocation, targetLocation)};
+	if (distance > breakDistance)
+	{
+		LockOff();
+		return;
+	}
+
+	targetLocation.Z += lockedOnCameraTiltZ;
+	FRotator newRotation = UKismetMathLibrary::FindLookAtRotation(currentLocation, targetLocation);
+	playerController->SetControlRotation(newRotation);
 }
 
 /*Protected Functions*/

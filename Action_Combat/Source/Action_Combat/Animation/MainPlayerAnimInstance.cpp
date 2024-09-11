@@ -22,6 +22,7 @@ void UMainPlayerAnimInstance::UpdateCurrentAngle()
 {
     if (!IsValid(playerPawn)) {return;}
 
+    UpdateVelocity();
     FRotator currentRotation = playerPawn->GetActorRotation();
     currentAngle = CalculateDirection(currentVeloctiy, currentRotation);
 }

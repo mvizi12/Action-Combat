@@ -19,8 +19,13 @@ private:
 	class UCharacterMovementComponent* characterMovementComponent;
 	class USpringArmComponent* springArmComponent;
 
+	void GetReferences();
+
 	void LockOn(float radius, FVector cameraOffset);
 	void LockOff();
+
+	void SetLockOnSettings(FVector cameraOffset);
+	void SetPlayerControlRotation();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -28,6 +33,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Positive number will tilt the camera up when locked on and negative number will tilt down"))
 	float lockedOnCameraTiltZ {0.0f};
+
+	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Max distance the player can be from target to lock on"))
+	double breakDistance {1000.0f};
 
 	virtual void BeginPlay() override;
 
