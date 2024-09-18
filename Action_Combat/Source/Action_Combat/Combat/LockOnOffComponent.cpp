@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Enemy.h"
 
 // Sets default values for this component's properties
 ULockOnOffComponent::ULockOnOffComponent()
@@ -66,6 +67,7 @@ void ULockOnOffComponent::LockOn(float radius, FVector cameraOffset)
 void ULockOnOffComponent::LockOff()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Locking off"));
+	IEnemy::Execute_OnDeselect(currentTargetActor);
 	currentTargetActor = nullptr;
 
 	playerController->ResetIgnoreLookInput();
@@ -87,6 +89,8 @@ void ULockOnOffComponent::SetLockOnSettings(FVector cameraOffset)
 
 	//Move the camera to a desirable positions while locked on to target
 	springArmComponent->TargetOffset = cameraOffset;
+
+	IEnemy::Execute_OnSelect(currentTargetActor);
 }
 
 void ULockOnOffComponent::SetPlayerControlRotation()

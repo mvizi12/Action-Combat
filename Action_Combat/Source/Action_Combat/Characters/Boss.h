@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interfaces/MainPlayerInterface.h"
-#include "MainPlayer.generated.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Enemy.h"
+#include "Boss.generated.h"
 
 UCLASS()
-class ACTION_COMBAT_API AMainPlayer : public ACharacter, public IMainPlayerInterface
+class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AMainPlayer();
+	ABoss();
 
 protected:
 	// Called when the game starts or when spawned
