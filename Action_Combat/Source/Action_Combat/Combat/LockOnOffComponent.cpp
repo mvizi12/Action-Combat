@@ -56,12 +56,14 @@ void ULockOnOffComponent::LockOn(float radius, FVector cameraOffset)
 	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
 
 	if (!GetWorld()->SweepSingleByChannel(outHitResult, currentLocation, currentLocation, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, sphere, ignoreParams)) {return;}
+	if (!outHitResult.GetActor()->Implements<UEnemy>()) {return;} //If hit actor doesn't implement "Enemy" interface, return
 
 	UE_LOG(LogTemp, Warning, TEXT("Locking on to: %s"), *outHitResult.GetActor()->GetName());
 	currentTargetActor = outHitResult.GetActor();
 
 	SetLockOnSettings(cameraOffset);
 	lockedOn = true;
+	IEnemy::Execute_OnSelect(currentTargetActor);
 }
 
 void ULockOnOffComponent::LockOff()
@@ -71,8 +73,10 @@ void ULockOnOffComponent::LockOff()
 	currentTargetActor = nullptr;
 
 	playerController->ResetIgnoreLookInput();
-	ownerRef->bUseControllerRotationYaw = true;
+	
+	//ownerRef->bUseControllerRotationYaw = true;
 
+	characterMovementComponent->bOrientRotationToMovement = true;
 	characterMovementComponent->bUseControllerDesiredRotation = false;
 
 	springArmComponent->TargetOffset = FVector::ZeroVector;
@@ -83,14 +87,14 @@ void ULockOnOffComponent::SetLockOnSettings(FVector cameraOffset)
 {
 	//Set new player control settings
 	playerController->SetIgnoreLookInput(true); //Player can't control the camera anymore
-	ownerRef->bUseControllerRotationYaw = false;
 
+	//ownerRef->bUseControllerRotationYaw = false;
+
+	characterMovementComponent->bOrientRotationToMovement = false;
 	characterMovementComponent->bUseControllerDesiredRotation = true;
 
 	//Move the camera to a desirable positions while locked on to target
 	springArmComponent->TargetOffset = cameraOffset;
-
-	IEnemy::Execute_OnSelect(currentTargetActor);
 }
 
 void ULockOnOffComponent::SetPlayerControlRotation()
