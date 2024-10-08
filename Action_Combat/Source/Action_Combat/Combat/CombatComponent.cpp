@@ -2,6 +2,8 @@
 
 
 #include "CombatComponent.h"
+#include "GameFramework/Character.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -15,8 +17,7 @@ UCombatComponent::UCombatComponent()
 void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
+	ownerRef = GetOwner<ACharacter>();
 	
 }
 
@@ -33,10 +34,29 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 /************************************Protected Functions************************************/
 void UCombatComponent::ComboAttack()
 {
+	if (!IsValid(ownerRef) || !canAttack) {return;}
+
+	canAttack = false;
+
+	ownerRef->PlayAnimMontage(meleeMontages[comboCounter]);
+	++comboCounter;
+	int maxCombo {meleeMontages.Num()};
+	comboCounter = UKismetMathLibrary::Wrap(comboCounter, -1, maxCombo - 1);
+
 }
 
 /************************************Protected Functions************************************/
 
 /************************************Public Functions************************************/
+void UCombatComponent::HandleResetAttack()
+{
+	canAttack = true;
+}
+
+void UCombatComponent::ResetCombo()
+{
+	comboCounter = 0;
+}
+
 /************************************Public Functions************************************/
 

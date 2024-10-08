@@ -12,9 +12,18 @@ class ACTION_COMBAT_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	ACharacter* ownerRef;
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<UAnimMontage*> meleeMontages;
+
+	UPROPERTY(VisibleAnywhere)
+	int comboCounter {0};
+
+	UPROPERTY(VisibleAnywhere)
+	bool canAttack {true};
 	
 	virtual void BeginPlay() override;
 
@@ -26,5 +35,10 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable) //Public so animations can call it
+	void HandleResetAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void ResetCombo();
 		
 };
