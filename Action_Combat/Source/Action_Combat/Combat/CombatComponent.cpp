@@ -3,7 +3,6 @@
 
 #include "CombatComponent.h"
 
-// Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -13,8 +12,6 @@ UCombatComponent::UCombatComponent()
 	// ...
 }
 
-
-// Called when the game starts
 void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,12 +20,23 @@ void UCombatComponent::BeginPlay()
 	
 }
 
-
-// Called every frame
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
+
+/************************************Private Functions************************************/
+/************************************Private Functions************************************/
+
+/************************************Protected Functions************************************/
+void UCombatComponent::ComboAttack()
+{
+}
+
+/************************************Protected Functions************************************/
+
+/************************************Public Functions************************************/
+/************************************Public Functions************************************/
 
