@@ -17,7 +17,13 @@ private:
 
 	USkeletalMeshComponent* skeletalMeshComp;
 
+	TArray<AActor*> actorsToIgnore; //To prevent from damaing the same enemy multiple times from 1 attack
+
 	void GetReferences();
+
+	void WeaponTrace(TArray<FHitResult>&);
+
+	void HandleDamage(TArray<FHitResult>&);
 
 protected:
 	UPROPERTY(EditAnywhere)
@@ -29,24 +35,30 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Name of the socket where the weapon trace should end"))
 	FName socketEnd;
 
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Rotation of the weapon trace"))
-	FName socketRotation;
+	//UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Rotation of the weapon trace"))
+	//FName socketRotation;
+
+	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Bone name for the rotation of the weapon trace"))
+	FName boneRot;
 
 	UPROPERTY(EditDefaultsOnly)
 	float socketBoxLength;
-
-	UPROPERTY(EditDefaultsOnly)
-	float socketCapsauleRadius;
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(VisibleAnywhere)
+	bool isAttacking {false};
+	
 	// Sets default values for this component's properties
 	UTraceComponent();
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void HandleResetAttack();
 
 		
 };

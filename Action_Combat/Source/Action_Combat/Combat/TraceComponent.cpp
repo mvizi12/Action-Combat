@@ -4,6 +4,8 @@
 #include "TraceComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Engine/DamageEvents.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Fighter.h"
 
 // Sets default values for this component's properties
 UTraceComponent::UTraceComponent()
@@ -21,7 +23,6 @@ void UTraceComponent::BeginPlay()
 	Super::BeginPlay();
 
 	GetReferences();
-	
 }
 
 
@@ -30,33 +31,10 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (!IsValid(skeletalMeshComp)) {return;}
-
-	FVector socketStartLocation {skeletalMeshComp->GetSocketLocation(socketStart)};
-	FVector socketEndLocation {skeletalMeshComp->GetSocketLocation(socketEnd)};
-	FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socketRotation)};
-
-	float socketShapeHeight {static_cast<float>(FVector::Distance(socketStartLocation, socketEndLocation))};
-	FVector socketBoxHalfExtent {socketBoxLength, socketBoxLength, socketShapeHeight};
-	socketBoxHalfExtent /= 2;
-
 	TArray<FHitResult> outHits;
-	FCollisionShape box {FCollisionShape::MakeBox(socketBoxHalfExtent)};
-	//FCollisionShape capsule {FCollisionShape::MakeCapsule(socketCapsauleRadius, socketShapeHeight / 2)};
-	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
-
-	bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, socketShapeRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
-
-	if (debugModeEnabled)
-	{
-		FVector centerPoint {UKismetMathLibrary::VLerp(socketStartLocation, socketEndLocation, 0.5f)};
-		//DrawDebugCapsule(GetWorld(), socketMidLocation, socketShapeHeight / 2, socketCapsauleRadius, socketShapeRotation, FColor::Red, false, 0.1f, 0U, 1.0f);
-		UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, socketShapeRotation.Rotator(), 0.1f, 1.0f);
-	}
-
-	if (!targetFound) {return;}
-
-	UE_LOG(LogTemp, Warning, TEXT("Target(s) found"));
+	WeaponTrace(outHits);
+	if (!isAttacking || outHits.Num() == 0) {return;}
+	HandleDamage(outHits);
 }
 
 /************************************Private Functions************************************/
@@ -66,11 +44,58 @@ void UTraceComponent::GetReferences()
 	if (!IsValid(ownerRef)) {return;}
 	skeletalMeshComp = ownerRef->FindComponentByClass<USkeletalMeshComponent>();
 }
+
+void UTraceComponent::WeaponTrace(TArray<FHitResult> &outHits)
+{
+	if (!IsValid(skeletalMeshComp)) {return;}
+
+	FVector socketStartLocation {skeletalMeshComp->GetSocketLocation(socketStart)};
+	FVector socketEndLocation {skeletalMeshComp->GetSocketLocation(socketEnd)};
+	//FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socketRotation)};
+	FQuat boneRotation {skeletalMeshComp->GetBoneQuaternion(boneRot)};
+
+	float socketShapeHeight {static_cast<float>(FVector::Distance(socketStartLocation, socketEndLocation))};
+	FVector socketBoxHalfExtent {socketBoxLength, socketBoxLength, socketShapeHeight};
+	socketBoxHalfExtent /= 2;
+
+	FCollisionShape box {FCollisionShape::MakeBox(socketBoxHalfExtent)};
+	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
+
+	bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, boneRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
+
+	if (debugModeEnabled)
+	{
+		FVector centerPoint {UKismetMathLibrary::VLerp(socketStartLocation, socketEndLocation, 0.5f)};
+		UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, boneRotation.Rotator(), 0.1f, 1.0f);
+	}
+}
+
+void UTraceComponent::HandleDamage(TArray<FHitResult> &outHits)
+{
+	float characterDamage {0.0f};
+	IFighter* fighterRef {Cast<IFighter>(ownerRef)};
+
+	if (fighterRef == nullptr) {return;}
+	characterDamage = fighterRef->GetDamage();
+
+	FDamageEvent targetAttackedEvent;
+	for (const FHitResult& hitResult : outHits)
+	{
+		AActor* targetActor {hitResult.GetActor()};
+		if (actorsToIgnore.Contains(targetActor)) {continue;}
+		targetActor->TakeDamage(characterDamage, targetAttackedEvent, ownerRef->GetInstigatorController(), ownerRef);
+		actorsToIgnore.AddUnique(targetActor);
+	}
+}
 /************************************Private Functions************************************/
 
 /************************************Protected Functions************************************/
 /************************************Protected Functions************************************/
 
 /************************************Public Functions************************************/
+void UTraceComponent::HandleResetAttack()
+{
+	actorsToIgnore.Empty();
+}
 /************************************Public Functions************************************/
 

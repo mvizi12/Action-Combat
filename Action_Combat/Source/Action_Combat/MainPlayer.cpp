@@ -32,3 +32,16 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
+
+/************************************Private Functions************************************/
+/************************************Private Functions************************************/
+
+/************************************Protected Functions************************************/
+/************************************Protected Functions************************************/
+
+/************************************Public Functions************************************/
+float AMainPlayer::GetDamage()
+{
+    return damage;
+}
+/************************************Public Functions************************************/
