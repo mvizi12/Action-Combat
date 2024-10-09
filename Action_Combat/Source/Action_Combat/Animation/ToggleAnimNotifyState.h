@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "ToggleTraceNotifyState.generated.h"
+#include "ToggleAnimNotifyState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ACTION_COMBAT_API UToggleTraceNotifyState : public UAnimNotifyState
+class ACTION_COMBAT_API UToggleAnimNotifyState : public UAnimNotifyState
 {
 	GENERATED_BODY()
 
 public:
 	virtual void NotifyBegin(USkeletalMeshComponent*, UAnimSequenceBase*, float, const FAnimNotifyEventReference&) override;
 	virtual void NotifyEnd(USkeletalMeshComponent*, UAnimSequenceBase*, const FAnimNotifyEventReference&) override;
-	
+
 };
