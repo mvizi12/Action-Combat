@@ -2,6 +2,7 @@
 
 
 #include "StatsComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -32,3 +33,10 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
+void UStatsComponent::ReduceHealth(float damage)
+{
+	if (EStat::Health <= 0) {return;}
+
+	stats[EStat::Health] -= damage;
+	stats[EStat::Health] = UKismetMathLibrary::FClamp(stats[EStat::Health], 0, stats[EStat::MaxHealth]);
+}

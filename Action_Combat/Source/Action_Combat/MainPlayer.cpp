@@ -2,12 +2,28 @@
 
 
 #include "MainPlayer.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\BlockComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\CombatComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\EStat.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\LockOnOffComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\PlayerActionsComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\TraceComponent.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	//Doing this here because "BeginPlay()" only runs when the game starts
+	//However, we want these components to be avilable during development
+	blockComponent = CreateDefaultSubobject<UBlockComponent>(TEXT("Block"));
+	combatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat"));
+	lockOnOffComponent = CreateDefaultSubobject<ULockOnOffComponent>(TEXT("LockOnOff"));
+	playerActionsComponent = CreateDefaultSubobject<UPlayerActionsComponent>(TEXT("PlayerActions"));
+	statsComponent = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
+	traceComponent = CreateDefaultSubobject<UTraceComponent>(TEXT("Trace"));
 
 }
 
@@ -42,6 +58,6 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 /************************************Public Functions************************************/
 float AMainPlayer::GetDamage()
 {
-    return damage;
+    return statsComponent->stats[EStat::Strength];
 }
 /************************************Public Functions************************************/

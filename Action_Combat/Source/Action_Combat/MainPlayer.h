@@ -14,13 +14,28 @@ class ACTION_COMBAT_API AMainPlayer : public ACharacter, public IMainPlayerInter
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "How much damage the player's attacks will do"))
-	int damage;
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UBlockComponent* blockComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UCombatComponent* combatComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class ULockOnOffComponent* lockOnOffComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UPlayerActionsComponent* playerActionsComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UStatsComponent* statsComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UTraceComponent* traceComponent;
+
 	// Sets default values for this character's properties
 	AMainPlayer();
 

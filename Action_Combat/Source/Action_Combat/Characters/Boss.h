@@ -12,16 +12,17 @@ class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	ABoss();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UStatsComponent* statsComponent;
+
+	ABoss();
+
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input

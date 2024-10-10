@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "EStat.h"
 #include "StatsComponent.generated.h"
 
 
@@ -12,17 +13,19 @@ class ACTION_COMBAT_API UStatsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	UStatsComponent();
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	UPROPERTY(EditAnywhere)
+	TMap<TEnumAsByte<EStat>, float> stats;
+	
+	UStatsComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void ReduceHealth(float damage);
 
 		
 };

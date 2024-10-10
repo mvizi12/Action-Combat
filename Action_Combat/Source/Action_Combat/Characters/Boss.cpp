@@ -2,13 +2,15 @@
 
 
 #include "Boss.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
 
 // Sets default values
 ABoss::ABoss()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	statsComponent = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 }
 
 // Called when the game starts or when spawned
