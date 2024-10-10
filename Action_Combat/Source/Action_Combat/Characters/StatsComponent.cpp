@@ -40,3 +40,9 @@ void UStatsComponent::ReduceHealth(float damage)
 	stats[EStat::Health] -= damage;
 	stats[EStat::Health] = UKismetMathLibrary::FClamp(stats[EStat::Health], 0, stats[EStat::MaxHealth]);
 }
+
+void UStatsComponent::ReduceStamina(float amount)
+{
+	stats[EStat::Stamina] -= amount;
+	stats[EStat::Stamina] = UKismetMathLibrary::FClamp(stats[EStat::Stamina], 0, stats[EStat::MaxStamina]);
+}

@@ -47,4 +47,6 @@ public:
 
 	virtual float GetDamage() override;
 
+	virtual bool HasEnoughStamina(float) override;
+
 };

@@ -51,32 +51,31 @@ void UTraceComponent::WeaponTrace(TArray<FHitResult> &outHits)
 
 	FVector socketStartLocation {skeletalMeshComp->GetSocketLocation(socketStart)};
 	FVector socketEndLocation {skeletalMeshComp->GetSocketLocation(socketEnd)};
-	//FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socketRotation)};
-	FQuat boneRotation {skeletalMeshComp->GetBoneQuaternion(boneRot)};
+	FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socketRotation)};
 
 	float socketShapeHeight {static_cast<float>(FVector::Distance(socketStartLocation, socketEndLocation))};
-	FVector socketBoxHalfExtent {socketBoxLength, socketBoxLength, socketShapeHeight};
+	FVector socketBoxHalfExtent{socketShapeHeight,socketBoxLength, socketBoxLength};
 	socketBoxHalfExtent /= 2;
 
 	FCollisionShape box {FCollisionShape::MakeBox(socketBoxHalfExtent)};
 	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
 
-	bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, boneRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
+	bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, socketShapeRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
 
 	if (debugModeEnabled)
 	{
 		FVector centerPoint {UKismetMathLibrary::VLerp(socketStartLocation, socketEndLocation, 0.5f)};
-		UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, boneRotation.Rotator(), 0.1f, 1.0f);
+		UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, socketShapeRotation.Rotator(), 0.1f, 1.0f);
 	}
 }
 
 void UTraceComponent::HandleDamage(TArray<FHitResult> &outHits)
 {
 	float characterDamage {0.0f};
-	IFighter* fighterRef {Cast<IFighter>(ownerRef)};
+	IFighter* iFighterRef {Cast<IFighter>(ownerRef)};
 
-	if (fighterRef == nullptr) {return;}
-	characterDamage = fighterRef->GetDamage();
+	if (iFighterRef == nullptr) {return;}
+	characterDamage = iFighterRef->GetDamage();
 
 	FDamageEvent targetAttackedEvent;
 	for (const FHitResult& hitResult : outHits)

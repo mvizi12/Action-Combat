@@ -59,5 +59,11 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 float AMainPlayer::GetDamage()
 {
     return statsComponent->stats[EStat::Strength];
+	//return 0.0f;
+}
+
+bool AMainPlayer::HasEnoughStamina(float staminaCost)
+{
+    return statsComponent->stats[EStat::Stamina] >= staminaCost;
 }
 /************************************Public Functions************************************/

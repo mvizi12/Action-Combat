@@ -17,7 +17,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	UPROPERTY(EditAnywhere)
 	TMap<TEnumAsByte<EStat>, float> stats;
 	
@@ -26,6 +26,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ReduceHealth(float damage);
+
+	UFUNCTION(BlueprintCallable)
+	void ReduceStamina(float amount);
 
 		
 };

@@ -35,11 +35,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Name of the socket where the weapon trace should end"))
 	FName socketEnd;
 
-	//UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Rotation of the weapon trace"))
-	//FName socketRotation;
-
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Bone name for the rotation of the weapon trace"))
-	FName boneRot;
+	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Rotation of the weapon trace"))
+	FName socketRotation;
 
 	UPROPERTY(EditDefaultsOnly)
 	float socketBoxLength;

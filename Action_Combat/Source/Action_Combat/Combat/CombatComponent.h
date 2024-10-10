@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnAttackPerformedSignature, UCombatComponent, OnAttackPerformedDelegate, float, amount);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTION_COMBAT_API UCombatComponent : public UActorComponent
@@ -22,6 +24,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int comboCounter {0};
 
+	UPROPERTY(EditDefaultsOnly)
+	float staminaCost {5.0f};
+
 	UPROPERTY(VisibleAnywhere)
 	bool canAttack {true};
 	
@@ -31,6 +36,9 @@ protected:
 	void ComboAttack();
 
 public:
+	UPROPERTY(BlueprintAssignable)
+	FOnAttackPerformedSignature OnAttackPerformedDelegate;
+
 	UCombatComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

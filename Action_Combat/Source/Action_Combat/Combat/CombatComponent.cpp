@@ -4,6 +4,7 @@
 #include "CombatComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\MainPlayerInterface.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -34,7 +35,15 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 /************************************Protected Functions************************************/
 void UCombatComponent::ComboAttack()
 {
-	if (!IsValid(ownerRef) || !canAttack) {return;}
+	//If the owner is the main player, but doesn't have enough stamina to attack
+	if (ownerRef->Implements<UMainPlayerInterface>())
+	{
+		IMainPlayerInterface* iOwnerRef {Cast<IMainPlayerInterface>(ownerRef)};
+
+		if (iOwnerRef && !iOwnerRef->HasEnoughStamina(staminaCost)) {return;}
+	}
+
+	if (!canAttack) {return;} //"canAttack" is modified by an animation notify
 
 	canAttack = false;
 
@@ -42,6 +51,7 @@ void UCombatComponent::ComboAttack()
 	++comboCounter;
 	int maxCombo {meleeMontages.Num()};
 	comboCounter = UKismetMathLibrary::Wrap(comboCounter, -1, maxCombo - 1);
+	OnAttackPerformedDelegate.Broadcast(staminaCost);
 
 }
 
