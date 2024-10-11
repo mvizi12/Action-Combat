@@ -14,8 +14,19 @@ class ACTION_COMBAT_API UStatsComponent : public UActorComponent
 	GENERATED_BODY()
 
 protected:
-	// Called when the game starts
+	UPROPERTY(VisibleAnywhere)
+	bool canRegenStamina {true};
+
+	UPROPERTY(EditAnywhere)
+	float staminaRegenDelay {2.0f};
+
+	UPROPERTY(EditAnywhere)
+	double staminaRegenRate {10};
+
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void EnableStaminaRegen();
 
 public:
 	UPROPERTY(EditAnywhere)
@@ -29,6 +40,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ReduceStamina(float amount);
+
+	UFUNCTION(BlueprintCallable)
+	void RegenStamina();
 
 		
 };

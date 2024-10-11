@@ -2,6 +2,9 @@
 
 
 #include "PlayerActionsComponent.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\MainPlayerInterface.h"
 
 // Sets default values for this component's properties
 UPlayerActionsComponent::UPlayerActionsComponent()
@@ -19,7 +22,11 @@ void UPlayerActionsComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	characterRef = GetOwner<ACharacter>();
+	movementComp = characterRef->GetCharacterMovement();
+
+	if (!characterRef->Implements<UMainPlayerInterface>()) {return;}
+	iPlayerRef = Cast<IMainPlayerInterface>(characterRef);
 	
 }
 
@@ -32,3 +39,28 @@ void UPlayerActionsComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	// ...
 }
 
+/************************************Private Functions************************************/
+/************************************Private Functions************************************/
+
+/************************************Protected Functions************************************/
+/************************************Protected Functions************************************/
+
+/************************************Public Functions************************************/
+void UPlayerActionsComponent::StartRun()
+{
+	if (iPlayerRef == nullptr || !iPlayerRef->HasEnoughStamina(staminaCostRun))
+	{
+		StopRun();
+		return;
+	}
+	if (movementComp->Velocity.Equals(FVector::ZeroVector, 1)) {return;}
+
+	movementComp->MaxWalkSpeed = runSpeed;
+	OnRunDelegate.Broadcast(staminaCostRun);
+}
+
+void UPlayerActionsComponent::StopRun()
+{
+	movementComp->MaxWalkSpeed = walkSpeed;
+}
+/************************************Public Functions************************************/

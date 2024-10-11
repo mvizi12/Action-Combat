@@ -6,23 +6,42 @@
 #include "Components/ActorComponent.h"
 #include "PlayerActionsComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnRunSignature, UPlayerActionsComponent, OnRunDelegate, float, cost);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTION_COMBAT_API UPlayerActionsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	UPlayerActionsComponent();
+private:
+	ACharacter* characterRef;
+	class IMainPlayerInterface* iPlayerRef;
+	class UCharacterMovementComponent* movementComp;
 
 protected:
-	// Called when the game starts
+	UPROPERTY(EditAnywhere)
+	float walkSpeed {600.0f};
+
+	UPROPERTY(EditAnywhere)
+	float runSpeed {1200.0f};
+
+	UPROPERTY(EditAnywhere)
+	float staminaCostRun {0.1f};
+
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnRunSignature OnRunDelegate;
+
+	UPlayerActionsComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void StartRun();
+
+	UFUNCTION(BlueprintCallable)
+	void StopRun();
 
 		
 };
