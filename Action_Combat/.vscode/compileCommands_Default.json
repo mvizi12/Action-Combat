@@ -104,6 +104,22 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Characters\\AI\\BTT_RangedAttack.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Characters\\AI\\BTT_RangedAttack.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Characters\\Boss.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
@@ -209,6 +225,22 @@
 	},
 	{
 		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Combat\\CombatComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Combat\\EnemyProjectileComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default\\Action_Combat.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\Source\\Action_Combat\\Combat\\EnemyProjectileComponent.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\mvizi\\Documents\\Unreal Projects\\Action-Combat\\Action_Combat\\.vscode\\compileCommands_Default\\Action_Combat.1.rsp"
