@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Enemy.h"
+#include "EEnemyState.h"
 #include "Boss.generated.h"
 
 UCLASS()
@@ -12,12 +13,16 @@ class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy
 {
 	GENERATED_BODY()
 
+private:
+	class UBlackboardComponent* blackBoardComp;
+
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(EditAnywhere)
+	TEnumAsByte<EEnemyState> initialState;
+
 	virtual void BeginPlay() override;
 
 public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStatsComponent* statsComponent;
 
@@ -27,5 +32,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void ChangeState(EEnemyState newState);
 
 };

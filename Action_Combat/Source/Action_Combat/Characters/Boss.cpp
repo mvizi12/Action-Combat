@@ -2,6 +2,8 @@
 
 
 #include "Boss.h"
+#include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
 
 // Sets default values
@@ -17,6 +19,9 @@ ABoss::ABoss()
 void ABoss::BeginPlay()
 {
 	Super::BeginPlay();
+
+	blackBoardComp = GetController<AAIController>()->GetBlackboardComponent();
+	ChangeState(initialState);
 	
 }
 
@@ -33,4 +38,17 @@ void ABoss::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+/************************************Private Functions************************************/
+/************************************Private Functions************************************/
+
+/************************************Protected Functions************************************/
+/************************************Protected Functions************************************/
+
+/************************************Public Functions************************************/
+void ABoss::ChangeState(EEnemyState newState)
+{
+	blackBoardComp->SetValueAsEnum(TEXT("currentState"), newState);
+}
+/************************************Public Functions************************************/
 
