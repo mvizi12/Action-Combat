@@ -2,7 +2,3 @@
 
 
 #include "BossAnimInstance.h"
-
-void UBossAnimInstance::UpdateCharacterPawn()
-{
-}

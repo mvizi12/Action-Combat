@@ -4,22 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "BTT_RangedAttack.generated.h"
+#include "BTT_ChargeAttack.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ACTION_COMBAT_API UBTT_RangedAttack : public UBTTaskNode
+class ACTION_COMBAT_API UBTT_ChargeAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
 
-	protected:
-		UPROPERTY(EditAnywhere)
-		UAnimMontage* rangedAttackMontage;
-
-		UPROPERTY(EditAnywhere)
-		double threshold {0.9};
+	private:
+		AAIController* controllerRef;
+		ACharacter* characterRef;
+		class UBossAnimInstance* bossAnim;
 
 	public:
 		virtual EBTNodeResult::Type	ExecuteTask(UBehaviorTreeComponent&, uint8*) override;

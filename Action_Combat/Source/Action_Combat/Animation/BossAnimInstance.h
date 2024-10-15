@@ -14,15 +14,12 @@ class ACTION_COMBAT_API UBossAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 
-	//Unreal doesn't suggest private variables be exposed to blueprint
-	private:
-		APawn* characterPawn;
-
 	protected:
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		float currentSpeed {0.0f};
-
-		UFUNCTION(BlueprintCallable)
-		void UpdateCharacterPawn();
+	
+	public:
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		bool isCharing {false};
 	
 };
