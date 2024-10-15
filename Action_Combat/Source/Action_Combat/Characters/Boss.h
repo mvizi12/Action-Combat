@@ -17,12 +17,12 @@ private:
 	class UBlackboardComponent* blackBoardComp;
 
 protected:
-	UPROPERTY(EditAnywhere)
-	TEnumAsByte<EEnemyState> initialState;
-
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(EditAnywhere)
+	TEnumAsByte<EEnemyState> initialState;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStatsComponent* statsComponent;
 

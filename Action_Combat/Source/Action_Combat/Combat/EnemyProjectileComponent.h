@@ -15,6 +15,11 @@ class ACTION_COMBAT_API UEnemyProjectileComponent : public UActorComponent
 protected:
 	virtual void BeginPlay() override;
 
+	/**
+	* Spawn a projectile from the enemy
+	* @param componentName Name of the component where the Projectile will spawn
+	* @param projectileClass Projectile to spawn
+	*/
 	UFUNCTION(BlueprintCallable)
 	void SpawnProjectile(FName componentName, TSubclassOf<AActor> projectileClass);
 

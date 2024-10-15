@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EnemyProjectileComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UEnemyProjectileComponent::UEnemyProjectileComponent()
@@ -38,9 +39,11 @@ void UEnemyProjectileComponent::SpawnProjectile(FName componentName, TSubclassOf
 {
 	USceneComponent* spawnPointComp {Cast<USceneComponent>(GetOwner()->GetDefaultSubobjectByName(componentName))};
 	
-	//Returns the location of the component in the world, NOT relative to its owning actor
-	FVector spawnLocation {spawnPointComp->GetComponentLocation()};
-	GetWorld()->SpawnActor(projectileClass, &spawnLocation);
+	FVector spawnLocation {spawnPointComp->GetComponentLocation()}; //Returns the location of the component in the world, NOT relative to its owning actor
+	FVector targetLocation {GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation()};
+	FRotator newRotation {UKismetMathLibrary::FindLookAtRotation(spawnLocation, targetLocation)};
+	GetWorld()->SpawnActor(projectileClass, &spawnLocation, &newRotation);
+
 }
 /************************************Protected Functions************************************/
 
