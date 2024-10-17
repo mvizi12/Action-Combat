@@ -31,10 +31,10 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	TArray<FHitResult> outHits;
-	WeaponTrace(outHits);
-	if (!isAttacking || outHits.Num() == 0) {return;}
-	HandleDamage(outHits);
+	TArray<FHitResult> allHits; //Stores the hit results for each weapon
+	WeaponTrace(allHits);
+	if (!isAttacking || allHits.Num() == 0) {return;} //If not attacking or hit nothing, no reason to handle damage
+	HandleDamage(allHits);
 }
 
 /************************************Private Functions************************************/
@@ -45,31 +45,37 @@ void UTraceComponent::GetReferences()
 	skeletalMeshComp = ownerRef->FindComponentByClass<USkeletalMeshComponent>();
 }
 
-void UTraceComponent::WeaponTrace(TArray<FHitResult> &outHits)
+void UTraceComponent::WeaponTrace(TArray<FHitResult> &allHits)
 {
 	if (!IsValid(skeletalMeshComp)) {return;}
 
-	FVector socketStartLocation {skeletalMeshComp->GetSocketLocation(socketStart)};
-	FVector socketEndLocation {skeletalMeshComp->GetSocketLocation(socketEnd)};
-	FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socketRotation)};
-
-	float socketShapeHeight {static_cast<float>(FVector::Distance(socketStartLocation, socketEndLocation))};
-	FVector socketBoxHalfExtent{socketShapeHeight,socketBoxLength, socketBoxLength};
-	socketBoxHalfExtent /= 2;
-
-	FCollisionShape box {FCollisionShape::MakeBox(socketBoxHalfExtent)};
-	FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
-
-	bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, socketShapeRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
-
-	if (debugModeEnabled)
+	for (const FTraceSockets& socket : sockets) //Performs a weapon trace for each weapon
 	{
-		FVector centerPoint {UKismetMathLibrary::VLerp(socketStartLocation, socketEndLocation, 0.5f)};
-		UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, socketShapeRotation.Rotator(), 0.1f, 1.0f);
+		TArray<FHitResult> outHits; //Array of hit results from each weapon
+		FVector socketStartLocation {skeletalMeshComp->GetSocketLocation(socket.socketStart)};
+		FVector socketEndLocation {skeletalMeshComp->GetSocketLocation(socket.socketEnd)};
+		FQuat socketShapeRotation {skeletalMeshComp->GetSocketQuaternion(socket.socketRotation)};
+
+		float socketShapeHeight {static_cast<float>(FVector::Distance(socketStartLocation, socketEndLocation))};
+		FVector socketBoxHalfExtent{socketShapeHeight,socketBoxLength, socketBoxLength};
+		socketBoxHalfExtent /= 2;
+
+		FCollisionShape box {FCollisionShape::MakeBox(socketBoxHalfExtent)};
+		FCollisionQueryParams ignoreParams {FName {TEXT("Ignore Collision Parameters")}, false, ownerRef};
+
+		bool targetFound = GetWorld()->SweepMultiByChannel(outHits, socketStartLocation, socketEndLocation, socketShapeRotation, ECollisionChannel::ECC_GameTraceChannel1, box, ignoreParams);
+
+		for (const FHitResult& hitResult : outHits) {allHits.Add(hitResult);}
+
+		if (debugModeEnabled)
+		{
+			FVector centerPoint {UKismetMathLibrary::VLerp(socketStartLocation, socketEndLocation, 0.5f)};
+			UKismetSystemLibrary::DrawDebugBox(GetWorld(), centerPoint, box.GetExtent(), targetFound ? FColor::Green : FColor::Red, socketShapeRotation.Rotator(), 0.1f, 1.0f);
+		}
 	}
 }
 
-void UTraceComponent::HandleDamage(TArray<FHitResult> &outHits)
+void UTraceComponent::HandleDamage(TArray<FHitResult> &allHits)
 {
 	float characterDamage {0.0f};
 	IFighter* iFighterRef {Cast<IFighter>(ownerRef)};
@@ -78,7 +84,7 @@ void UTraceComponent::HandleDamage(TArray<FHitResult> &outHits)
 	characterDamage = iFighterRef->GetDamage();
 
 	FDamageEvent targetAttackedEvent;
-	for (const FHitResult& hitResult : outHits)
+	for (const FHitResult& hitResult : allHits)
 	{
 		AActor* targetActor {hitResult.GetActor()};
 		if (actorsToIgnore.Contains(targetActor)) {continue;}

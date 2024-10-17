@@ -6,10 +6,11 @@
 #include "GameFramework/Character.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Enemy.h"
 #include "EEnemyState.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Fighter.h"
 #include "Boss.generated.h"
 
 UCLASS()
-class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy
+class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy, public IFighter
 {
 	GENERATED_BODY()
 
@@ -34,5 +35,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void ChangeState(EEnemyState newState);
+
+	virtual float GetDamage() override;
 
 };

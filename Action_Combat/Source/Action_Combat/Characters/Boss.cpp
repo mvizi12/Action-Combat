@@ -50,5 +50,8 @@ void ABoss::ChangeState(EEnemyState newState)
 {
 	blackBoardComp->SetValueAsEnum(TEXT("currentState"), newState);
 }
+float ABoss::GetDamage()
+{
+    return statsComponent->stats[EStat::Strength];
+}
 /************************************Public Functions************************************/
-

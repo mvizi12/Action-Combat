@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "FTraceSockets.h"
 #include "TraceComponent.generated.h"
 
 
@@ -29,14 +30,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 	bool debugModeEnabled;
 
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Name of the socket where the weapon trace should begin"))
-	FName socketStart;
-
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Name of the socket where the weapon trace should end"))
-	FName socketEnd;
-
-	UPROPERTY(EditDefaultsOnly, meta = (ToolTip = "Rotation of the weapon trace"))
-	FName socketRotation;
+	UPROPERTY(EditAnywhere)
+	TArray<FTraceSockets> sockets;
 
 	UPROPERTY(EditDefaultsOnly)
 	float socketBoxLength;

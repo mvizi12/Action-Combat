@@ -9,7 +9,8 @@
 
 EBTNodeResult::Type UBTT_RangedAttack::ExecuteTask(UBehaviorTreeComponent &OwnerComp, uint8 *NodeMemory)
 {
-    ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetPawn<ACharacter>()};
+    ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetPawn<ACharacter>()}; //Method 1
+    //ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetCharacter()}; Method 2
     if (!IsValid(ownerCharacterRef)) {return EBTNodeResult::Failed;}
     ownerCharacterRef->PlayAnimMontage(rangedAttackMontage);
 
