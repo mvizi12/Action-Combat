@@ -6,9 +6,9 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Navigation/PathFollowingComponent.h" //Needed for the "MoveTo" function for some reason
-//#include "NavigationData.h"
+#include "Navigation/PathFollowingComponent.h" //Need for the "MoveTo" function for some reason
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Animation\BossAnimInstance.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\EEnemyState.h"
 
 UBTT_ChargeAttack::UBTT_ChargeAttack()
 {
@@ -28,6 +28,9 @@ void UBTT_ChargeAttack::TickTask(UBehaviorTreeComponent &OwnerComp, uint8 *NodeM
 
     if (!isFinished) {return;}
 
+    //The whole point of the charge state is to get close to the player
+    //So that means the boss will transition to the melee state after charging
+    OwnerComp.GetBlackboardComponent()->SetValueAsEnum(TEXT("currentState"), EEnemyState::Melee);
     controllerRef->ReceiveMoveCompleted.Remove(MoveCompletedDelegate);
     FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 
