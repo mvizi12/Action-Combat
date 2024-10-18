@@ -12,6 +12,15 @@ EBTNodeResult::Type UBTT_RangedAttack::ExecuteTask(UBehaviorTreeComponent &Owner
     ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetPawn<ACharacter>()}; //Method 1
     //ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetCharacter()}; Method 2
     if (!IsValid(ownerCharacterRef)) {return EBTNodeResult::Failed;}
+
+    float distanceToPlayer {OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("distanceToPlayer"))};
+    if (distanceToPlayer < meleeAttackRange) //If enemy is in melee attack range, switch to melee state & abort this task
+    {
+        OwnerComp.GetBlackboardComponent()->SetValueAsEnum(TEXT("currentState"), EEnemyState::Melee);
+        AbortTask(OwnerComp, NodeMemory); //Cleans up any memory related to this task
+        return EBTNodeResult::Aborted; //Actually aborts the task
+    }
+
     ownerCharacterRef->PlayAnimMontage(rangedAttackMontage);
 
     double randomValue {UKismetMathLibrary::RandomFloat()};
