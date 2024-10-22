@@ -14,6 +14,7 @@ EBTNodeResult::Type UBTT_RangedAttack::ExecuteTask(UBehaviorTreeComponent &Owner
     if (!IsValid(ownerCharacterRef)) {return EBTNodeResult::Failed;}
 
     float distanceToPlayer {OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("distanceToPlayer"))};
+    UE_LOG(LogTemp, Warning, TEXT("BTT_RangedAttack: Distance to player = %f"), distanceToPlayer);
     if (distanceToPlayer <= meleeAttackRange) //If enemy is in melee attack range, switch to melee state & abort this task
     {
         OwnerComp.GetBlackboardComponent()->SetValueAsEnum(TEXT("currentState"), EEnemyState::Melee);

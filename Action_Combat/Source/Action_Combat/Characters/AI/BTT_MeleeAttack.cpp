@@ -22,7 +22,8 @@ EBTNodeResult::Type UBTT_MeleeAttack::ExecuteTask(UBehaviorTreeComponent &OwnerC
 {
     isFinished = false;
     controllerRef = OwnerComp.GetAIOwner();
-    float distanceToPlayer = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("distanceToPlayer"));
+    float distanceToPlayer {OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("distanceToPlayer"))};
+    UE_LOG(LogTemp, Warning, TEXT("BTT_MeleeAttack: Distance to player = %f"), distanceToPlayer);
     if (distanceToPlayer > attackRadius)
     {
         APawn* playerRef {GetWorld()->GetFirstPlayerController()->GetPawn()};
