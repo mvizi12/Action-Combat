@@ -8,6 +8,8 @@
 #include "TraceComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_TwoParams(FOnReportDamageSignature, UTraceComponent, OnReportDamageDelegate, float, damage, AActor*, actor);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTION_COMBAT_API UTraceComponent : public UActorComponent
 {
@@ -40,6 +42,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(BlueprintAssignable)
+	FOnReportDamageSignature OnReportDamageDelegate;
+
 	UPROPERTY(VisibleAnywhere)
 	bool isAttacking {false};
 	

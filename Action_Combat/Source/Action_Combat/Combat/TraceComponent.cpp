@@ -89,6 +89,7 @@ void UTraceComponent::HandleDamage(TArray<FHitResult> &allHits)
 		AActor* targetActor {hitResult.GetActor()};
 		if (actorsToIgnore.Contains(targetActor)) {continue;}
 		targetActor->TakeDamage(characterDamage, targetAttackedEvent, ownerRef->GetInstigatorController(), ownerRef);
+		OnReportDamageDelegate.Broadcast(characterDamage, targetActor);
 		actorsToIgnore.AddUnique(targetActor);
 	}
 }
