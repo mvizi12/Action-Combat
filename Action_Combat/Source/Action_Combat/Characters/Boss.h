@@ -23,6 +23,9 @@ protected:
 public:
 	UPROPERTY(EditAnywhere)
 	TEnumAsByte<EEnemyState> initialState;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UCombatComponent* combatComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStatsComponent* statsComponent;
@@ -35,6 +38,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void ChangeState(EEnemyState newState);
+
+	virtual void Attack() override;
+
+	virtual float GetAnimationDuration() override;
 
 	virtual float GetDamage() override;
 

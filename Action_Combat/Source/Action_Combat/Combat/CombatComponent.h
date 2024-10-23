@@ -39,6 +39,8 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackPerformedSignature OnAttackPerformedDelegate;
 
+	float animationDuration {0.0f};
+
 	UCombatComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -48,5 +50,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ResetCombo();
-		
+	
+	void RandomAttack();
 };

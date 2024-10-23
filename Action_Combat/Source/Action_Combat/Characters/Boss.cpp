@@ -4,6 +4,7 @@
 #include "Boss.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\CombatComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
 
 // Sets default values
@@ -12,6 +13,7 @@ ABoss::ABoss()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	combatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat"));
 	statsComponent = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 }
 
@@ -50,6 +52,17 @@ void ABoss::ChangeState(EEnemyState newState)
 {
 	blackBoardComp->SetValueAsEnum(TEXT("currentState"), newState);
 }
+
+void ABoss::Attack()
+{
+	combatComponent->RandomAttack();
+}
+
+float ABoss::GetAnimationDuration()
+{
+	return combatComponent->animationDuration;
+}
+
 float ABoss::GetDamage()
 {
     return statsComponent->stats[EStat::Strength];

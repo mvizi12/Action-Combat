@@ -68,5 +68,11 @@ void UCombatComponent::ResetCombo()
 	comboCounter = 0;
 }
 
+void UCombatComponent::RandomAttack()
+{
+	int randIndex {FMath::RandRange(0, meleeMontages.Num() - 1)};
+	animationDuration = ownerRef->PlayAnimMontage(meleeMontages[randIndex]);
+}
+
 /************************************Public Functions************************************/
 

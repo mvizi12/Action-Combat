@@ -16,7 +16,7 @@ class ACTION_COMBAT_API UBTT_MeleeAttack : public UBTTaskNode
 
 	private:
 		AAIController* controllerRef;
-		FScriptDelegate MoveCompletedDelegate; //Special type for storing a function in a variable
+		FScriptDelegate FinishAttackDelegate; //Special type for storing a function in a variable
 
 		bool isFinished;
 
@@ -30,7 +30,7 @@ class ACTION_COMBAT_API UBTT_MeleeAttack : public UBTTaskNode
 		virtual void TickTask(UBehaviorTreeComponent&, uint8*, float) override;
 
 		UFUNCTION()
-		void HandleMoveCompleted();
+		void FinishAttackTask();
 
 	public:
 		UBTT_MeleeAttack();
