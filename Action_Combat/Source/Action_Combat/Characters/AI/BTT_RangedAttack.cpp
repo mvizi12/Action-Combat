@@ -6,6 +6,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\EEnemyState.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Fighter.h"
 
 EBTNodeResult::Type UBTT_RangedAttack::ExecuteTask(UBehaviorTreeComponent &OwnerComp, uint8 *NodeMemory)
 {
@@ -13,8 +14,11 @@ EBTNodeResult::Type UBTT_RangedAttack::ExecuteTask(UBehaviorTreeComponent &Owner
     //ACharacter* ownerCharacterRef {OwnerComp.GetAIOwner()->GetCharacter()}; Method 2
     if (!IsValid(ownerCharacterRef)) {return EBTNodeResult::Failed;}
 
+    IFighter* iFighterRef {Cast<IFighter>(ownerCharacterRef)};
+    if (iFighterRef == nullptr) {return EBTNodeResult::Failed;}
+
     float distanceToPlayer {OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("distanceToPlayer"))};
-    UE_LOG(LogTemp, Warning, TEXT("BTT_RangedAttack: Distance to player = %f"), distanceToPlayer);
+    float meleeAttackRange {iFighterRef->GetMeleeRange()};
     if (distanceToPlayer <= meleeAttackRange) //If enemy is in melee attack range, switch to melee state & abort this task
     {
         OwnerComp.GetBlackboardComponent()->SetValueAsEnum(TEXT("currentState"), EEnemyState::Melee);

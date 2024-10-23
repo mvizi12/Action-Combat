@@ -39,7 +39,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackPerformedSignature OnAttackPerformedDelegate;
 
-	float animationDuration {0.0f};
+	float animationDuration {0.0f}; //For the boss
 
 	UCombatComponent();
 
@@ -51,5 +51,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ResetCombo();
 	
-	void RandomAttack();
+	void RandomAttack(); //For the Boss
 };

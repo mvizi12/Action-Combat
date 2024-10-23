@@ -67,4 +67,9 @@ float ABoss::GetDamage()
 {
     return statsComponent->stats[EStat::Strength];
 }
+
+float ABoss::GetMeleeRange()
+{
+    return statsComponent->stats[EStat::MeleeRange];
+}
 /************************************Public Functions************************************/

@@ -45,4 +45,6 @@ public:
 
 	virtual float GetDamage() override;
 
+	virtual float GetMeleeRange() override;
+
 };

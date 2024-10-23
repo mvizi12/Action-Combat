@@ -20,6 +20,8 @@ class ACTION_COMBAT_API UBTT_MeleeAttack : public UBTTaskNode
 
 		bool isFinished;
 
+		void Abort(UBehaviorTreeComponent &, uint8 *);
+
 	protected:
 		UPROPERTY(EditAnywhere)
 		float attackRadius {200.0f};

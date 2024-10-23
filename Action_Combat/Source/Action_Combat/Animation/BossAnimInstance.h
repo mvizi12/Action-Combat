@@ -14,9 +14,23 @@ class ACTION_COMBAT_API UBossAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 
+	private:
+		APawn* bossPawn;
+
+		void UpdateVelocity();
+
 	protected:
-		UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FVector currentVeloctiy{0.0f, 0.0f, 0.0f};
+
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float currentSpeed {0.0f};
+
+		UFUNCTION(BlueprintCallable)
+		void UpdateBossPawn();
+
+		UFUNCTION(BlueprintCallable)
+		void UpdateCurrentSpeed();
 	
 	public:
 		UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

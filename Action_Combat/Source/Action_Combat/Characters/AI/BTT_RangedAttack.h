@@ -21,9 +21,6 @@ class ACTION_COMBAT_API UBTT_RangedAttack : public UBTTaskNode
 		UPROPERTY(EditAnywhere)
 		double threshold {0.9};
 
-		UPROPERTY(EditAnywhere, meta = (ToolTip = "Max range allowed for the enemy to perform melee attacks"))
-		float meleeAttackRange {1250.0f};
-
 	public:
 		virtual EBTNodeResult::Type	ExecuteTask(UBehaviorTreeComponent&, uint8*) override;
 	
