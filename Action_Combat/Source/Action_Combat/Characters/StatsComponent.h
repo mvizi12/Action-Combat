@@ -7,6 +7,8 @@
 #include "EStat.h"
 #include "StatsComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnHealthPercentUpdateSignature, UStatsComponent, OnHealthPercentUpdateDelegate, float, newPercent);
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnStaminaPercentUpdateSignature, UStatsComponent, OnStaminaPercentUpdateDelegate, float, newPercent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTION_COMBAT_API UStatsComponent : public UActorComponent
@@ -28,9 +30,18 @@ protected:
 	UFUNCTION()
 	void EnableStaminaRegen();
 
+	UFUNCTION(BlueprintPure)
+	float GetStatPercentage(EStat current, EStat max) const;
+
 public:
 	UPROPERTY(EditAnywhere)
 	TMap<TEnumAsByte<EStat>, float> stats;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthPercentUpdateSignature OnHealthPercentUpdateDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnStaminaPercentUpdateSignature OnStaminaPercentUpdateDelegate;
 	
 	UStatsComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

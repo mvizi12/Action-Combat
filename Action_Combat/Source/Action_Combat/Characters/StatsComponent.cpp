@@ -39,6 +39,11 @@ void UStatsComponent::EnableStaminaRegen()
 {
 	canRegenStamina = true;
 }
+
+float UStatsComponent::GetStatPercentage(EStat current, EStat max) const
+{
+    return stats[current] / stats[max];
+}
 /************************************Protected Functions************************************/
 
 /************************************Public Functions************************************/
@@ -49,6 +54,8 @@ void UStatsComponent::ReduceHealth(float damage)
 
 	stats[EStat::Health] -= damage;
 	stats[EStat::Health] = UKismetMathLibrary::FClamp(stats[EStat::Health], 0, stats[EStat::MaxHealth]);
+
+	OnHealthPercentUpdateDelegate.Broadcast(GetStatPercentage(EStat::Health, EStat::MaxHealth));
 }
 
 void UStatsComponent::ReduceStamina(float amount)
@@ -57,6 +64,8 @@ void UStatsComponent::ReduceStamina(float amount)
 	stats[EStat::Stamina] = UKismetMathLibrary::FClamp(stats[EStat::Stamina], 0, stats[EStat::MaxStamina]);
 
 	canRegenStamina = false;
+
+	OnStaminaPercentUpdateDelegate.Broadcast(GetStatPercentage(EStat::Stamina, EStat::MaxStamina));
 	//0 - Because we don't need to worry about resuming this function if it's been interrupted
 	//100 - A unique id
 	FLatentActionInfo staminaRegenInfo {0, 100, TEXT("EnableStaminaRegen"), this};
@@ -69,6 +78,8 @@ void UStatsComponent::RegenStamina()
 
 	stats[EStat::Stamina] = UKismetMathLibrary::FInterpTo_Constant(stats[EStat::Stamina],
 	stats[EStat::MaxStamina], GetWorld()->DeltaTimeSeconds, staminaRegenRate);
+
+	OnStaminaPercentUpdateDelegate.Broadcast(GetStatPercentage(EStat::Stamina, EStat::MaxStamina));
 }
 
 /************************************Public Functions************************************/
