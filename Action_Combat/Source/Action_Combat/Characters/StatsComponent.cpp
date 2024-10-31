@@ -56,6 +56,8 @@ void UStatsComponent::ReduceHealth(float damage)
 	stats[EStat::Health] = UKismetMathLibrary::FClamp(stats[EStat::Health], 0, stats[EStat::MaxHealth]);
 
 	OnHealthPercentUpdateDelegate.Broadcast(GetStatPercentage(EStat::Health, EStat::MaxHealth));
+
+	if (stats[EStat::Health] <= 0) {OnZeroHealthUpdateDelegate.Broadcast();} //If health hits zero
 }
 
 void UStatsComponent::ReduceStamina(float amount)

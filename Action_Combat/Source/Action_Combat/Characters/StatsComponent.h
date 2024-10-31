@@ -9,6 +9,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnHealthPercentUpdateSignature, UStatsComponent, OnHealthPercentUpdateDelegate, float, newPercent);
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FOnStaminaPercentUpdateSignature, UStatsComponent, OnStaminaPercentUpdateDelegate, float, newPercent);
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(FOnZeroHealthUpdateSignature, UStatsComponent, OnZeroHealthUpdateDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTION_COMBAT_API UStatsComponent : public UActorComponent
@@ -42,6 +43,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnStaminaPercentUpdateSignature OnStaminaPercentUpdateDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnZeroHealthUpdateSignature OnZeroHealthUpdateDelegate;
 	
 	UStatsComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
