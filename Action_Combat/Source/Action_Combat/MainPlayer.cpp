@@ -31,7 +31,6 @@ AMainPlayer::AMainPlayer()
 void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -48,7 +47,6 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
-
 /************************************Private Functions************************************/
 /************************************Private Functions************************************/
 
@@ -56,10 +54,23 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 /************************************Protected Functions************************************/
 
 /************************************Public Functions************************************/
+void AMainPlayer::EndLockOnWithActor(AActor *actorRef)
+{
+	if (!IsValid(lockOnOffComponent->currentTargetActor) || lockOnOffComponent->currentTargetActor != actorRef) {return;}
+
+	lockOnOffComponent->LockOff();
+}
+
 float AMainPlayer::GetDamage()
 {
     return statsComponent->stats[EStat::Strength];
 	//return 0.0f;
+}
+
+void AMainPlayer::HandleDeath()
+{
+	PlayAnimMontage(deathAnimMontage);
+	DisableInput(GetController<APlayerController>());
 }
 
 bool AMainPlayer::HasEnoughStamina(float staminaCost)

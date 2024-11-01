@@ -26,4 +26,5 @@ public:
 	virtual float GetAnimationDuration() {return 0.0f;}
 	virtual float GetDamage() {return 0.0f;}
 	virtual float GetMeleeRange() {return 0.0f;} //For the boss
+	virtual void HandleDeath() {}
 };

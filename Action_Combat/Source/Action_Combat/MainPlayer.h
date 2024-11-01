@@ -14,7 +14,9 @@ class ACTION_COMBAT_API AMainPlayer : public ACharacter, public IMainPlayerInter
 	GENERATED_BODY()
 
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* deathAnimMontage;
+
 	virtual void BeginPlay() override;
 
 public:
@@ -36,16 +38,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UTraceComponent* traceComponent;
 
-	// Sets default values for this character's properties
 	AMainPlayer();
 
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void EndLockOnWithActor(AActor* actorRef) override;
+
 	virtual float GetDamage() override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void HandleDeath() override;
 
 	virtual bool HasEnoughStamina(float) override;
 

@@ -22,7 +22,6 @@ private:
 	void GetReferences();
 
 	void LockOn(float radius, FVector cameraOffset);
-	void LockOff();
 
 	void SetLockOnSettings(FVector cameraOffset);
 	void SetPlayerControlRotation();
@@ -49,6 +48,8 @@ public:
 	ULockOnOffComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void LockOff();
 
 		
 };

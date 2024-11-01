@@ -15,9 +15,13 @@ class ACTION_COMBAT_API ABoss : public ACharacter, public IEnemy, public IFighte
 	GENERATED_BODY()
 
 private:
+	class AAIController* controllerRef;
 	class UBlackboardComponent* blackBoardComp;
 
 protected:
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* deathAnimMontage;
+
 	virtual void BeginPlay() override;
 
 public:
@@ -46,5 +50,14 @@ public:
 	virtual float GetDamage() override;
 
 	virtual float GetMeleeRange() override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void HandleDeath() override;
+
+	UFUNCTION()
+	void HandlePlayerDeath();
+
+	UFUNCTION()
+	void FinishDeathAnim();
 
 };

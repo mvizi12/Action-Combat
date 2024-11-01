@@ -11,5 +11,6 @@ enum EEnemyState
 	Dead UMETA(DisplayName = "Dead"),
 	Idle UMETA(DisplayName = "Idle"),
 	Melee UMETA(DisplayName = "Melee"),
-	Range UMETA(DisplayName = "Range")
+	Range UMETA(DisplayName = "Range"),
+	Victory UMETA(DisplayName = "Victory")
 };

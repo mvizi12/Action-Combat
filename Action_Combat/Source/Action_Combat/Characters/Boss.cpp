@@ -4,8 +4,12 @@
 #include "Boss.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BrainComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\CombatComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\MainPlayer.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\MainPlayerInterface.h"
 
 // Sets default values
 ABoss::ABoss()
@@ -22,8 +26,11 @@ void ABoss::BeginPlay()
 {
 	Super::BeginPlay();
 
-	blackBoardComp = GetController<AAIController>()->GetBlackboardComponent();
+	controllerRef = GetController<AAIController>();
+	blackBoardComp = controllerRef->GetBlackboardComponent();
 	ChangeState(initialState);
+
+	GetWorld()->GetFirstPlayerController()->GetPawn<AMainPlayer>()->statsComponent->OnZeroHealthUpdateDelegate.AddDynamic(this, &ABoss::HandlePlayerDeath);
 	
 }
 
@@ -71,5 +78,34 @@ float ABoss::GetDamage()
 float ABoss::GetMeleeRange()
 {
     return statsComponent->stats[EStat::MeleeRange];
+}
+
+void ABoss::HandleDeath()
+{
+	/*******************Play death animation, stop the AI's brain, and disable************************/
+	ChangeState(EEnemyState::Dead);
+	float duration {PlayAnimMontage(deathAnimMontage)};
+	controllerRef->GetBrainComponent()->StopLogic("Defeated");
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	/*******************Play death animation and stop the AI's brain************************/
+
+	FTimerHandle destroyTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(destroyTimerHandle, this, &ABoss::FinishDeathAnim, duration, false);
+	
+	/***************End the player's lock on to this enemy if they're locked on to them*******************/
+	IMainPlayerInterface* playerRef {GetWorld()->GetFirstPlayerController()->GetPawn<IMainPlayerInterface>()};
+	if (!playerRef) {return;}
+	playerRef->EndLockOnWithActor(this);
+	/***************End the player's lock on to this enemy if they're locked on to them*******************/
+}
+
+void ABoss::HandlePlayerDeath()
+{
+	ChangeState(EEnemyState::Victory);
+}
+
+void ABoss::FinishDeathAnim()
+{
+	Destroy();
 }
 /************************************Public Functions************************************/
