@@ -9,6 +9,7 @@
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\PlayerActionsComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Characters\StatsComponent.h"
 #include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Combat\TraceComponent.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Animation\MainPlayerAnimInstance.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
@@ -31,6 +32,8 @@ AMainPlayer::AMainPlayer()
 void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	playerAnim = Cast<UMainPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
 // Called every frame
@@ -54,6 +57,15 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 /************************************Protected Functions************************************/
 
 /************************************Public Functions************************************/
+bool AMainPlayer::CanTakeDamage(AActor *opponent)
+{
+	if (playerAnim->isBlocking)
+	{
+		return blockComponent->Check(opponent);
+	}
+    return true;
+}
+
 void AMainPlayer::EndLockOnWithActor(AActor *actorRef)
 {
 	if (!IsValid(lockOnOffComponent->currentTargetActor) || lockOnOffComponent->currentTargetActor != actorRef) {return;}
@@ -64,7 +76,6 @@ void AMainPlayer::EndLockOnWithActor(AActor *actorRef)
 float AMainPlayer::GetDamage()
 {
     return statsComponent->stats[EStat::Strength];
-	//return 0.0f;
 }
 
 void AMainPlayer::HandleDeath()
@@ -76,5 +87,10 @@ void AMainPlayer::HandleDeath()
 bool AMainPlayer::HasEnoughStamina(float staminaCost)
 {
     return statsComponent->stats[EStat::Stamina] >= staminaCost;
+}
+
+void AMainPlayer::PlayHurtAnimation()
+{
+	PlayAnimMontage(hurtAnimMontage);
 }
 /************************************Public Functions************************************/

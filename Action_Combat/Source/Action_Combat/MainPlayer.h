@@ -13,9 +13,15 @@ class ACTION_COMBAT_API AMainPlayer : public ACharacter, public IMainPlayerInter
 {
 	GENERATED_BODY()
 
+private:
+	class UMainPlayerAnimInstance* playerAnim;
+
 protected:
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* deathAnimMontage;
+
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* hurtAnimMontage;
 
 	virtual void BeginPlay() override;
 
@@ -45,6 +51,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual bool CanTakeDamage(AActor* opponent) override;
+
 	virtual void EndLockOnWithActor(AActor* actorRef) override;
 
 	virtual float GetDamage() override;
@@ -53,5 +61,8 @@ public:
 	virtual void HandleDeath() override;
 
 	virtual bool HasEnoughStamina(float) override;
+
+	UFUNCTION(BlueprintCallable)
+	void PlayHurtAnimation();
 
 };

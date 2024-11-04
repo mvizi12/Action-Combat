@@ -4,6 +4,7 @@
 #include "StatsComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "C:\Users\mvizi\Documents\Unreal Projects\Action-Combat\Action_Combat\Source\Action_Combat\Interfaces\Fighter.h"
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -48,9 +49,13 @@ float UStatsComponent::GetStatPercentage(EStat current, EStat max) const
 
 /************************************Public Functions************************************/
 
-void UStatsComponent::ReduceHealth(float damage)
+void UStatsComponent::ReduceHealth(float damage, AActor* opponent)
 {
 	if (EStat::Health <= 0) {return;}
+
+	IFighter* fighterRef {GetOwner<IFighter>()};
+
+	if (!fighterRef->CanTakeDamage(opponent)) {return;} //If false, can't damage the actor because they're blocking
 
 	stats[EStat::Health] -= damage;
 	stats[EStat::Health] = UKismetMathLibrary::FClamp(stats[EStat::Health], 0, stats[EStat::MaxHealth]);

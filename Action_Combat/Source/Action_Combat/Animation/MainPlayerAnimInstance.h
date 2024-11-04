@@ -38,4 +38,8 @@ class ACTION_COMBAT_API UMainPlayerAnimInstance : public UAnimInstance
 
 		UFUNCTION(BlueprintCallable)
 		void UpdateCurrentSpeed();
+	
+	public:
+		UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		bool isBlocking {false};
 };
