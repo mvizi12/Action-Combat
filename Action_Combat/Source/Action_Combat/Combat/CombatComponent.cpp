@@ -70,6 +70,9 @@ void UCombatComponent::ResetCombo()
 
 void UCombatComponent::RandomAttack()
 {
+	if (!canAttack) {return;}
+	canAttack = false;
+	
 	int randIndex {FMath::RandRange(0, meleeMontages.Num() - 1)};
 	animationDuration = ownerRef->PlayAnimMontage(meleeMontages[randIndex]);
 }
